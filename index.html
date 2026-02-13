@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بیبیییی من</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -10,7 +10,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -21,24 +20,26 @@
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
             font-family: 'Vazirmatn', Tahoma, sans-serif;
             overflow: hidden;
-            touch-action: none; /* جلوگیری از اسکرول و زوم برای فرار بهتر دکمه */
+            touch-action: manipulation; /* بهینه سازی لمس در گوشی */
         }
 
         .container {
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(255, 105, 135, 0.3);
-            width: 90%;
-            max-width: 400px;
+            max-width: 90%;
+            width: 450px;
             z-index: 10;
-            position: relative;
         }
 
         .hearts {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 1;
         }
@@ -46,98 +47,105 @@
         .heart {
             position: absolute;
             font-size: 20px;
-            animation: float 6s linear infinite;
-            opacity: 0.5;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
         }
 
         @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(180deg); opacity: 0; }
         }
 
         h1 {
             color: #e91e63;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            margin-bottom: 40px;
-            line-height: 1.6;
+            margin-bottom: 30px;
         }
 
         .buttons-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100px;
-            gap: 20px;
+            gap: 15px;
+            min-height: 150px;
+            position: relative;
         }
 
         .btn {
-            padding: 12px 30px;
-            font-size: 1.2rem;
+            padding: 12px 35px;
+            font-size: 1.1rem;
             font-weight: 900;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-family: 'Vazirmatn', sans-serif;
+            white-space: nowrap;
         }
 
         .btn-yes {
             background: linear-gradient(135deg, #e91e63, #ff6b9d);
             color: white;
             z-index: 100;
-            position: relative;
         }
 
         .btn-no {
             background: #9e9e9e;
             color: white;
-            position: absolute; /* برای اینکه راحت‌تر فرار کنه */
-            z-index: 50;
-            right: 30px; /* موقعیت اولیه */
+            position: relative;
+            z-index: 5;
         }
 
         .message {
             position: fixed;
-            top: 10%;
+            top: 15%; /* کمی بالاتر در گوشی */
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(51, 51, 51, 0.9);
             color: white;
             padding: 10px 20px;
-            border-radius: 12px;
+            border-radius: 15px;
             font-size: 1rem;
             opacity: 0;
-            pointer-events: none; /* این خط خیلی مهم است */
-            z-index: 1000;
-            transition: opacity 0.3s;
-            width: 80%;
+            transition: opacity 0.3s ease;
+            /* راه حل اصلی شما اینجاست: */
+            pointer-events: none; 
+            z-index: 200;
             text-align: center;
         }
 
-        .message.show { opacity: 1; }
+        .message.show {
+            opacity: 1;
+        }
 
         .celebration {
             display: none;
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: white;
             z-index: 2000;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             text-align: center;
+            padding: 20px;
         }
 
         .celebration.show { display: flex; }
+
+        .emoji-couple { font-size: 6rem; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="hearts" id="hearts"></div>
     <div class="message" id="message"></div>
 
-    <div class="container" id="mainContainer">
+    <div class="container">
         <h1>با من ازدواج میکنی شما محیا خانوم؟ 🥺</h1>
         <div class="buttons-container">
             <button class="btn btn-yes" id="yesBtn">بله 😍</button>
@@ -146,10 +154,10 @@
     </div>
 
     <div class="celebration" id="celebration">
-        <div id="emojiRain"></div>
-        <div style="font-size: 6rem;">👩‍❤️‍👨</div>
+        <div class="emoji-rain" id="emojiRain"></div>
+        <div class="emoji-couple">👩‍❤️‍👨</div>
         <h1 style="font-size: 2.5rem;">لیلیلیلیلی! 🎉</h1>
-        <p style="font-size: 1.5rem; color: #ff6b9d; font-weight: bold; padding: 20px;">می‌دونستم بله رو میگی! عاشقتمممم ❤️</p>
+        <p style="font-size: 1.4rem; color: #ff6b9d; font-weight: bold;">می‌دونستم بله رو میگی! عاشقتمممم ❤️</p>
     </div>
 
     <script>
@@ -157,82 +165,89 @@
         const noBtn = document.getElementById('noBtn');
         const message = document.getElementById('message');
         const celebration = document.getElementById('celebration');
+        const hearts = document.getElementById('hearts');
 
-        const messages = ["کصکش؟ 🧐", "عجب دیوثی هستی! 🤔", "اشتباه زدی کادو میپره‌ها! 🎁", "جون من بگو بله... 🥺", "قلبم شکست که 💔", "آشغاللللل؟ 🙄", "نمی‌تونی فرار کنی!"];
+        const messages = [
+            "کصکش؟ 🧐",
+            "عجب دیوثی هستی! 🤔",
+            "اشتباه زدی کادو میپره‌ها! 🎁",
+            "جون من بگو بله... 🥺",
+            "قلبم شکست که 💔",
+            "یه بار دیگه فکر کن...",
+            "آشغاللللل؟ 🙄",
+            "دکمه‌اش خرابه، بله رو بزن 😂",
+            "نمی‌تونی فرار کنی!"
+        ];
 
         let yesScale = 1;
         let messageIndex = 0;
+        let messageTimeout;
 
-        function moveNoButton(e) {
-            if(e) e.preventDefault(); // جلوگیری از کلیک ناخواسته در موبایل
-
-            // ۱. بزرگ کردن دکمه بله
-            yesScale += 0.4;
+        // تابع کمکی برای تشخیص لمس یا موس
+        function handleEscape() {
+            yesScale += 0.35;
             yesBtn.style.transform = `scale(${yesScale})`;
 
-            // ۲. نمایش پیام
             message.textContent = messages[messageIndex];
             message.classList.add('show');
             messageIndex = (messageIndex + 1) % messages.length;
-            setTimeout(() => message.classList.remove('show'), 2000);
 
-            // ۳. جابجایی دکمه نه به مختصات کاملا تصادفی در کل صفحه
-            const padding = 50;
-            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
-            
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            clearTimeout(messageTimeout);
+            messageTimeout = setTimeout(() => message.classList.remove('show'), 2000);
 
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            const x = (Math.random() - 0.5) * (window.innerWidth * 0.7);
+            const y = (Math.random() - 0.5) * (window.innerHeight * 0.7);
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
         }
 
-        // رویدادها
-        noBtn.addEventListener('mouseenter', moveNoButton);
-        noBtn.addEventListener('touchstart', moveNoButton, {passive: false});
-
-        yesBtn.addEventListener('click', () => {
-            celebration.style.display = 'flex';
-            createRain();
+        // فعال سازی هم برای موس هم برای لمس گوشی
+        noBtn.addEventListener('mouseenter', handleEscape);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // جلوگیری از کلیک پیش‌فرض گوشی
+            handleEscape();
         });
 
-        // ساخت قلب‌های پس‌زمینه
+        yesBtn.addEventListener('click', () => {
+            celebration.classList.add('show');
+            createEmojiRain();
+        });
+
         function createHearts() {
-            const heartsContainer = document.getElementById('hearts');
+            const heartEmojis = ['💖', '❤️', '💝'];
             for (let i = 0; i < 20; i++) {
-                const h = document.createElement('div');
-                h.className = 'heart';
-                h.textContent = '❤️';
-                h.style.left = Math.random() * 100 + '%';
-                h.style.animationDelay = Math.random() * 5 + 's';
-                h.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                heartsContainer.appendChild(h);
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                hearts.appendChild(heart);
             }
         }
 
-        function createRain() {
-            for (let i = 0; i < 100; i++) {
+        function createEmojiRain() {
+            const emojiRain = document.getElementById('emojiRain');
+            for (let i = 0; i < 80; i++) {
                 setTimeout(() => {
-                    const e = document.createElement('div');
-                    e.textContent = '❤️';
-                    e.style.position = 'fixed';
-                    e.style.left = Math.random() * 100 + 'vw';
-                    e.style.top = '-50px';
-                    e.style.fontSize = '2rem';
-                    e.style.zIndex = '3000';
-                    e.style.animation = `fallDown ${Math.random() * 2 + 2}s linear forwards`;
-                    document.body.appendChild(e);
+                    const emoji = document.createElement('div');
+                    emoji.style.position = 'absolute';
+                    emoji.style.left = Math.random() * 100 + '%';
+                    emoji.style.top = '-50px';
+                    emoji.style.fontSize = '2rem';
+                    emoji.textContent = '❤️';
+                    emoji.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
+                    document.body.appendChild(emoji);
+                    setTimeout(() => emoji.remove(), 3000);
                 }, i * 50);
             }
         }
 
-        const style = document.createElement('style');
-        style.innerHTML = `@keyframes fallDown { to { transform: translateY(110vh) rotate(360deg); } }`;
-        document.head.appendChild(style);
-
         createHearts();
     </script>
+
+    <style>
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
 </body>
 </html>
